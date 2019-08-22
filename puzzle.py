@@ -3,6 +3,7 @@ from tkinter import Frame, Label, CENTER
 from ai import find_best_move
 
 import logic
+import math
 import constants as c
 from time import sleep
 
@@ -15,7 +16,7 @@ class GameGrid(Frame):
         self.master.title('8402 - Beat the computer')
         #self.master.bind("<Key>", self.key_down)
 
-        # self.gamelogic = gamelogic
+        # self.gamelogic = gamelogica
         self.commands = {c.KEY_UP: logic.up, c.KEY_DOWN: logic.down,
                          c.KEY_LEFT: logic.left, c.KEY_RIGHT: logic.right,
                          c.KEY_UP_ALT: logic.up, c.KEY_DOWN_ALT: logic.down,
@@ -26,9 +27,9 @@ class GameGrid(Frame):
         self.init_grid()
         self.init_matrix()
         self.update_grid_cells()
+        
         while(True):
             self.key_down("<Key>")
-            sleep(1)
         self.mainloop()
 
     def init_grid(self):
@@ -70,13 +71,13 @@ class GameGrid(Frame):
                         text="", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
                 else:
                     self.grid_cells[i][j].configure(text=str(
-                        new_number), bg=c.BACKGROUND_COLOR_DICT[new_number],
-                        fg=c.CELL_COLOR_DICT[new_number])
+                        new_number), bg=c.BACKGROUND_COLOR_DICT[new_number] if new_number <= 65536 else c.BACKGROUND_COLOR_DICT[65536],
+                                                    fg=c.CELL_COLOR_DICT[new_number] if new_number <= 65536 else c.CELL_COLOR_DICT[65536])
         self.update_idletasks()
 
     def key_down(self, event):
         game_board = self.matrix
-        move = find_best_move(game_board)
+        move = find_best_move(list(map(lambda x: list(map(lambda y: 0 if y==0 else y.bit_length()-1, x)), game_board)))
         if(move==0):
             move = 'w'
         elif(move==1):
@@ -86,7 +87,7 @@ class GameGrid(Frame):
         elif(move==3):
             move = 'd'
         key = repr(move)
-        print("key"+key)
+        #print("key"+key)
         if key == c.KEY_BACK and len(self.history_matrixs) > 1:
             self.matrix = self.history_matrixs.pop()
             self.update_grid_cells()
@@ -114,7 +115,7 @@ class GameGrid(Frame):
         index = (self.gen(), self.gen())
         while self.matrix[index[0]][index[1]] != 0:
             index = (self.gen(), self.gen())
-        self.matrix[index[0]][index[1]] = 2
+        self.matrix[index[0]][index[1]] = [2,4,8,16,32][random.randint(0,4)]
 
 
 gamegrid = GameGrid()

@@ -157,7 +157,7 @@ def merge(mat):
 
 
 def up(game):
-    print("up")
+    #print("up")
     # return matrix after shifting up
     game = transpose(game)
     game, done = cover_up(game)
@@ -166,12 +166,12 @@ def up(game):
     done = done or temp[1]
     game = cover_up(game)[0]
     game = transpose(game)
-    print(game)
+    #print(game)
     return (game, done)
 
 
 def down(game):
-    print("down")
+    #print("down")
     game = reverse(transpose(game))
     game, done = cover_up(game)
     temp = merge(game)
@@ -179,24 +179,24 @@ def down(game):
     done = done or temp[1]
     game = cover_up(game)[0]
     game = transpose(reverse(game))
-    print(game)
+    #print(game)
     return (game, done)
 
 
 def left(game):
-    print("left")
+    #print("left")
     # return matrix after shifting left
     game, done = cover_up(game)
     temp = merge(game)
     game = temp[0]
     done = done or temp[1]
     game = cover_up(game)[0]
-    print(game)
+    #print(game)
     return (game, done)
 
 
 def right(game):
-    print("right")
+    #print("right")
     # return matrix after shifting right
     game = reverse(game)
     game, done = cover_up(game)
@@ -205,5 +205,5 @@ def right(game):
     done = done or temp[1]
     game = cover_up(game)[0]
     game = reverse(game)
-    print(game)
+    #print(game)
     return (game, done)

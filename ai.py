@@ -66,7 +66,7 @@ if MULTITHREAD:
     def find_best_move(m):
         board = to_c_board(m)
 
-        print_board(to_val(m))
+        #print_board(to_val(m))
 
         scores = pool.map(score_toplevel_move, [(board, move) for move in range(4)])
         bestmove, bestscore = max(enumerate(scores), key=lambda x:x[1])
@@ -97,7 +97,7 @@ def play_game(gamectrl):
         move = find_best_move(board)
         if move < 0:
             break
-        print("%010.6f: Score %d, Move %d: %s" % (time.time() - start, gamectrl.get_score(), moveno, movename(move)))
+        #print("%010.6f: Score %d, Move %d: %s" % (time.time() - start, gamectrl.get_score(), moveno, movename(move)))
         gamectrl.execute_move(move)
 
     score = gamectrl.get_score()
