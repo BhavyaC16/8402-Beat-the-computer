@@ -11,7 +11,6 @@ import sys
 class GameGrid(Frame):
     def __init__(self, player_args):
         Frame.__init__(self)
-
         self.grid()
         self.master.title('8402 - Beat the computer')
         #self.master.bind("<Key>", self.key_down)
@@ -31,6 +30,27 @@ class GameGrid(Frame):
         self.score = 0
         while(logic.game_state(self.matrix) != 'win' and logic.game_state(self.matrix) != 'lose'):
             self.key_down("<Key>")
+        if logic.game_state(self.matrix) == 'win':
+            self.grid_cells[1][1].configure(
+                text="You", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+            self.grid_cells[1][2].configure(
+                text="Lose", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+            self.grid_cells[2][1].configure(
+                text="Score", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+            self.grid_cells[2][2].configure(
+                text=str(self.score), bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+        if logic.game_state(self.matrix) == 'lose':
+            self.grid_cells[1][1].configure(
+                text="You", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+            self.grid_cells[1][2].configure(
+                text="Win!", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+            self.grid_cells[2][1].configure(
+                text="Score", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+            self.grid_cells[2][2].configure(
+                text=str(self.score), bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+        sleep(5)
+        self.mainloop()
+        #self.master.destroy()
 
     def init_grid(self):
         background = Frame(self, bg=c.BACKGROUND_COLOR_GAME,
@@ -97,8 +117,8 @@ class GameGrid(Frame):
         key = repr(move)
         if key in self.commands:
             self.matrix, done, self.score = self.commands[repr(move)](self.matrix, self.score)
-            print("SCORE:")
-            print(self.score)
+            #print("SCORE:")
+            #print(self.score)
             if done:
                 #self.matrix = logic.add_two(self.matrix)
                 # record last move
