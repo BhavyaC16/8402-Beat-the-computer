@@ -1,7 +1,7 @@
 import random
 from tkinter import Frame, Label, CENTER
 from ai import find_best_move
-
+from our_logic import get_participant_output
 import logic
 import math
 import constants as c
@@ -75,6 +75,12 @@ class GameGrid(Frame):
                                                     fg=c.CELL_COLOR_DICT[new_number] if new_number <= 65536 else c.CELL_COLOR_DICT[65536])
         self.update_idletasks()
 
+    def check_participant_output_validity(self, part_out, game_board):
+        return(True)
+
+    def penalty(game_board):
+        return(game_board)
+
     def key_down(self, event):
         game_board = self.matrix
         move = find_best_move(list(map(lambda x: list(map(lambda y: 0 if y==0 else y.bit_length()-1, x)), game_board)))
@@ -86,17 +92,24 @@ class GameGrid(Frame):
             move = 'a'
         elif(move==3):
             move = 'd'
+        else:
+            exit()
         key = repr(move)
         #print("key"+key)
-        if key == c.KEY_BACK and len(self.history_matrixs) > 1:
-            self.matrix = self.history_matrixs.pop()
-            self.update_grid_cells()
-            print('back on step total step:', len(self.history_matrixs))
-        elif key in self.commands:
+        # if key == c.KEY_BACK and len(self.history_matrixs) > 1:
+        #     self.matrix = self.history_matrixs.pop()
+        #     self.update_grid_cells()
+        #     print('back on step total step:', len(self.history_matrixs))
+        if key in self.commands:
             self.matrix, done = self.commands[repr(move)](self.matrix)
             if done:
-                self.matrix = logic.add_two(self.matrix)
+                #self.matrix = logic.add_two(self.matrix)
                 # record last move
+                part_out = get_participant_output('game1.py', self.matrix, {'w':'up', 's': 'down', 'a': 'left', 'd': 'right'}[move])
+                if self.check_participant_output_validity(part_out, game_board):
+                    self.matrix[part_out[0][1]][part_out[0][0]] = part_out[1]
+                else:
+                    penalty(game_board)
                 self.history_matrixs.append(self.matrix)
                 self.update_grid_cells()
                 done = False

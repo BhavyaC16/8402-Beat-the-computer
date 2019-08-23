@@ -1,0 +1,6 @@
+import subprocess
+def get_participant_output(game_board, move_by_ai):
+    from subprocess import run, PIPE
+    p = run(['grep', 'f'], stdout=PIPE,
+        input='one\ntwo\nthree\nfour\nfive\nsix\n', encoding='ascii')
+    print(p.stdout)

@@ -1,0 +1,8 @@
+#!/usr/bin/python3
+a=[]
+for _ in range(4):
+    a.append(list(map(lambda x: int(x),input().split(' '))))
+
+b = [(x,y) if a[x][y]==0 for i in range(4) for j in range(4)]
+print(b[0]][0], b[0][1])
+print(2)

@@ -1,3 +1,4 @@
+from puzzle import GameGrid
 class my_game_ctrl(object):
     def get_status(self):
         return ["ended", "won", "running"]
@@ -15,5 +16,4 @@ class my_game_ctrl(object):
     def execute_move(self, move):
         move = [0, 2, 3, 1][move]
 
-    
-        
+game = GameGrid()
