@@ -105,7 +105,7 @@ class GameGrid(Frame):
             if done:
                 #self.matrix = logic.add_two(self.matrix)
                 # record last move
-                part_out = get_participant_output('game1.py', self.matrix, {'w':'up', 's': 'down', 'a': 'left', 'd': 'right'}[move])
+                part_out = get_participant_output(['java', 'testingJava'], self.matrix, {'w':'up', 's': 'down', 'a': 'left', 'd': 'right'}[move])
                 if self.check_participant_output_validity(part_out, game_board):
                     self.matrix[part_out[0][1]][part_out[0][0]] = part_out[1]
                 else:
