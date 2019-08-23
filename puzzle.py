@@ -6,10 +6,10 @@ import logic
 import math
 import constants as c
 from time import sleep
-
+import sys
 
 class GameGrid(Frame):
-    def __init__(self):
+    def __init__(self, player_args):
         Frame.__init__(self)
 
         self.grid()
@@ -27,7 +27,7 @@ class GameGrid(Frame):
         self.init_grid()
         self.init_matrix()
         self.update_grid_cells()
-        
+        self.player_file = player_args
         while(True):
             self.key_down("<Key>")
         self.mainloop()
@@ -93,19 +93,14 @@ class GameGrid(Frame):
         elif(move==3):
             move = 'd'
         else:
-            exit()
+            self.game_over()
         key = repr(move)
-        #print("key"+key)
-        # if key == c.KEY_BACK and len(self.history_matrixs) > 1:
-        #     self.matrix = self.history_matrixs.pop()
-        #     self.update_grid_cells()
-        #     print('back on step total step:', len(self.history_matrixs))
         if key in self.commands:
             self.matrix, done = self.commands[repr(move)](self.matrix)
             if done:
                 #self.matrix = logic.add_two(self.matrix)
                 # record last move
-                part_out = get_participant_output('game1.py', self.matrix, {'w':'up', 's': 'down', 'a': 'left', 'd': 'right'}[move])
+                part_out = get_participant_output(self.player_file, self.matrix, {'w':'up', 's': 'down', 'a': 'left', 'd': 'right'}[move])
                 if self.check_participant_output_validity(part_out, game_board):
                     self.matrix[part_out[0][1]][part_out[0][0]] = part_out[1]
                 else:
@@ -131,4 +126,6 @@ class GameGrid(Frame):
         self.matrix[index[0]][index[1]] = [2,4,8,16,32][random.randint(0,4)]
 
 
-gamegrid = GameGrid()
+eval_args = sys.argv[1].split(' ')
+gamegrid = GameGrid(eval_args)
+print(10)
