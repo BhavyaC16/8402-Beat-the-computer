@@ -27,7 +27,7 @@ class GameGrid(Frame):
         self.init_grid()
         self.init_matrix()
         self.update_grid_cells()
-        
+        self.score = 0
         while(True):
             self.key_down("<Key>")
         self.mainloop()
@@ -101,7 +101,9 @@ class GameGrid(Frame):
         #     self.update_grid_cells()
         #     print('back on step total step:', len(self.history_matrixs))
         if key in self.commands:
-            self.matrix, done = self.commands[repr(move)](self.matrix)
+            self.matrix, done, self.score = self.commands[repr(move)](self.matrix, self.score)
+            print("SCORE:")
+            print(self.score)
             if done:
                 #self.matrix = logic.add_two(self.matrix)
                 # record last move
