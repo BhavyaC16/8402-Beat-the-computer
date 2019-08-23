@@ -29,9 +29,8 @@ class GameGrid(Frame):
         self.update_grid_cells()
         self.player_file = player_args
         self.score = 0
-        while(True):
+        while(logic.game_state(self.matrix) != 'win' and logic.game_state(self.matrix) != 'lose'):
             self.key_down("<Key>")
-        self.mainloop()
 
     def init_grid(self):
         background = Frame(self, bg=c.BACKGROUND_COLOR_GAME,
@@ -130,5 +129,9 @@ class GameGrid(Frame):
 
 
 eval_args = sys.argv[1].split(' ')
-gamegrid = GameGrid(eval_args)
-print(10)
+scores=[]
+
+for i in range(4):
+    game = GameGrid(eval_args)
+    scores.append(game.score)
+print(scores)
