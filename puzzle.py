@@ -28,6 +28,8 @@ class GameGrid(Frame):
         self.update_grid_cells()
         self.player_file = player_args
         self.score = 0
+        self.max_at_instance = []
+        self.moves = 0
         while(logic.game_state(self.matrix) != 'win' and logic.game_state(self.matrix) != 'lose'):
             self.key_down("<Key>")
         if logic.game_state(self.matrix) == 'win':
@@ -122,7 +124,7 @@ class GameGrid(Frame):
             if done:
                 #self.matrix = logic.add_two(self.matrix)
                 # record last move
-                part_out = get_participant_output(self.player_file, self.matrix, {'w':'up', 's': 'down', 'a': 'left', 'd': 'right'}[move])
+                part_out = get_participant_output(self.player_file, self.matrix)
                 if self.check_participant_output_validity(part_out, game_board):
                     self.matrix[part_out[0][1]][part_out[0][0]] = part_out[1]
                 else:
