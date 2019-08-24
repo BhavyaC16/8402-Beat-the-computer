@@ -32,6 +32,7 @@ class GameGrid(Frame):
         self.max_at_instance = []
         self.num_moves = 0
         self.highest_tile = 2
+        self.evaluate = {}
         while(logic.game_state(self.matrix) != 'win' and logic.game_state(self.matrix) != 'lose' and self.num_moves<1024):
             self.key_down("<Key>")
         if logic.game_state(self.matrix) == 'win':
@@ -64,7 +65,7 @@ class GameGrid(Frame):
         print(self.num_moves)
         print(self.highest_tile)
         #self.mainloop()
-        sleep(10)
+        sleep(5)
         self.master.destroy()
 
     def init_grid(self):
@@ -128,7 +129,9 @@ class GameGrid(Frame):
         elif(move==3):
             move = 'd'
         else:
-            self.game_over()
+            print('matrix', self.matrix)
+            print('move', move)
+            return
         key = repr(move)
         if key in self.commands:
             self.matrix, done, self.score = self.commands[repr(move)](self.matrix, self.score)
@@ -153,12 +156,12 @@ class GameGrid(Frame):
                     self.grid_cells[1][1].configure(
                         text="You", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
                     self.grid_cells[1][2].configure(
-                        text="Win!", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+                        text="Lose!", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
                 if logic.game_state(self.matrix) == 'lose':
                     self.grid_cells[1][1].configure(
                         text="You", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
                     self.grid_cells[1][2].configure(
-                        text="Lose!", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
+                        text="Win!", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
 
     def generate_next(self):
         index = (self.gen(), self.gen())

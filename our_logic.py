@@ -8,9 +8,10 @@ def get_participant_output(game_file, game_board):
     input_to_player = '\n'.join(list(map(lambda x: ' '.join(list(map(lambda y: str(y), x))), game_board)))
     print(input_to_player)
     p = run(game_file, stdout=PIPE, input=input_to_player, encoding='ascii', timeout=1)
+    print(p.stdout)
     parse_output = process_player_output(p.stdout)
     if game_board[parse_output[0][1]][parse_output[0][0]] != 0:
-        raise PenaltyError();
+        raise PenaltyError()
     return(parse_output)
 
 def process_player_output(output):
