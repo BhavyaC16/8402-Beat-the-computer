@@ -28,9 +28,15 @@ class GameGrid(Frame):
         self.update_grid_cells()
         self.player_file = player_args
         self.score = 0
+        self.num_moves = 0
+        self.highest_tile = 2
         while(logic.game_state(self.matrix) != 'win' and logic.game_state(self.matrix) != 'lose'):
             self.key_down("<Key>")
         if logic.game_state(self.matrix) == 'win':
+            for i in range(0,4):
+                for j in range(0,4):
+                    if(self.highest_tile<self.matrix[i][j]):
+                        self.highest_tile = self.matrix[i][j]
             self.grid_cells[1][1].configure(
                 text="You", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
             self.grid_cells[1][2].configure(
@@ -40,6 +46,11 @@ class GameGrid(Frame):
             self.grid_cells[2][2].configure(
                 text=str(self.score), bg=c.BACKGROUND_COLOR_CELL_EMPTY)
         if logic.game_state(self.matrix) == 'lose':
+            #self.highest_tile = 2048
+            for i in range(0,4):
+                for j in range(0,4):
+                    if(self.highest_tile<self.matrix[i][j]):
+                        self.highest_tile = self.matrix[i][j]
             self.grid_cells[1][1].configure(
                 text="You", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
             self.grid_cells[1][2].configure(
@@ -48,9 +59,11 @@ class GameGrid(Frame):
                 text="Score", bg=c.BACKGROUND_COLOR_CELL_EMPTY)
             self.grid_cells[2][2].configure(
                 text=str(self.score), bg=c.BACKGROUND_COLOR_CELL_EMPTY)
-        sleep(5)
-        self.mainloop()
-        #self.master.destroy()
+        print(self.num_moves)
+        print(self.highest_tile)
+        #self.mainloop()
+        sleep(10)
+        self.master.destroy()
 
     def init_grid(self):
         background = Frame(self, bg=c.BACKGROUND_COLOR_GAME,
@@ -117,6 +130,7 @@ class GameGrid(Frame):
         key = repr(move)
         if key in self.commands:
             self.matrix, done, self.score = self.commands[repr(move)](self.matrix, self.score)
+            self.num_moves+=1
             #print("SCORE:")
             #print(self.score)
             if done:

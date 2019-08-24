@@ -18,20 +18,20 @@ public class testingJava{
 			}
 		}
 		int flag = 0;
-		for(int i = 0; i<4 && flag==0; i++)
+		while(flag==0)
 		{
-			for(int j = 0; j<4 && flag==0; j++)
+			int i = rand.nextInt(4);
+			int j = rand.nextInt(4);
+			if(game[i][j]==0)
 			{
-				if(game[i][j]==0)
-				{
-					int x = tile[rand.nextInt(2)];
-					System.out.print(j);
-					System.out.print(" ");
-					System.out.println(i);
-					System.out.println(x);
-					flag = 1;
-				}
+				int x = tile[rand.nextInt(2)];
+				System.out.print(j);
+				System.out.print(" ");
+				System.out.println(i);
+				System.out.println(x);
+				flag = 1;
 			}
 		}
+		
 	}
 }
