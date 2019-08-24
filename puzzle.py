@@ -1,6 +1,7 @@
 import random
 from tkinter import Frame, Label, CENTER
 from ai import find_best_move
+from statistics import mean
 from our_logic import get_participant_output
 import logic
 import math
@@ -31,7 +32,7 @@ class GameGrid(Frame):
         self.max_at_instance = []
         self.num_moves = 0
         self.highest_tile = 2
-        while(logic.game_state(self.matrix) != 'win' and logic.game_state(self.matrix) != 'lose'):
+        while(logic.game_state(self.matrix) != 'win' and logic.game_state(self.matrix) != 'lose' and self.num_moves<1024):
             self.key_down("<Key>")
         if logic.game_state(self.matrix) == 'win':
             for i in range(0,4):
@@ -131,7 +132,6 @@ class GameGrid(Frame):
         key = repr(move)
         if key in self.commands:
             self.matrix, done, self.score = self.commands[repr(move)](self.matrix, self.score)
-            self.num_moves+=1
             #print("SCORE:")
             #print(self.score)
             if done:
@@ -142,6 +142,10 @@ class GameGrid(Frame):
                     self.matrix[part_out[0][1]][part_out[0][0]] = part_out[1]
                 else:
                     penalty(game_board)
+                self.highest_tile = max(map(lambda l: max(l), self.matrix))
+                self.num_moves+=1
+                print('move', self.num_moves)
+                self.max_at_instance.append(self.highest_tile)
                 self.history_matrixs.append(self.matrix)
                 self.update_grid_cells()
                 done = False
@@ -165,8 +169,14 @@ class GameGrid(Frame):
 
 eval_args = sys.argv[1].split(' ')
 scores=[]
-
+len_games =[]
 for i in range(4):
     game = GameGrid(eval_args)
-    scores.append(game.score)
-print(scores)
+    game.max_at_instance = game.max_at_instance + (1024 - len(game.max_at_instance)) * [0]
+    l = game.max_at_instance
+    len_games.append(len(l))
+    tup = (mean(l[:1024]), mean(l[:512]), mean(l[:256]), mean(l[:128]), mean(l[:64]),
+           mean(l[:32]), mean(l[:16]),mean(l[:8]), mean(l[:4]), mean(l[:2]), mean(l[:1]))
+    scores.append(tup)
+print('len', len_games)
+print(tuple(map(lambda *z: mean(z), *scores)))
