@@ -59,3 +59,8 @@ For each move, the highest tile on the grid is considered as score and recorded.
 The scoring in case the game is terminated before 1024 moves:
 
 The initial sequence of moves upto termination point is padded with zeros to make the sequence length 1024.
+
+## Sources
+[2048 AI](https://github.com/nneonneo/2048-ai) 
+
+[2048 Interface](https://github.com/yangshun/2048-python) 
