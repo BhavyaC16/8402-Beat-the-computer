@@ -2,7 +2,7 @@ import random
 from tkinter import Frame, Label, CENTER
 from ai import find_best_move
 from statistics import mean
-from our_logic import get_participant_output
+from penalty import get_participant_output
 import logic
 import math
 import constants as c
@@ -170,16 +170,17 @@ class GameGrid(Frame):
         self.matrix[index[0]][index[1]] = [2,4,8,16,32][random.randint(0,4)]
 
 
-eval_args = sys.argv[1].split(' ')
-scores=[]
-len_games =[]
-for i in range(4):
-    game = GameGrid(eval_args)
-    game.max_at_instance = game.max_at_instance + (1024 - len(game.max_at_instance)) * [0]
-    l = game.max_at_instance
-    len_games.append(len(l))
-    tup = (mean(l[:1024]), mean(l[:512]), mean(l[:256]), mean(l[:128]), mean(l[:64]),
-           mean(l[:32]), mean(l[:16]),mean(l[:8]), mean(l[:4]), mean(l[:2]), mean(l[:1]))
-    scores.append(tup)
-print('len', len_games)
-print(tuple(map(lambda *z: mean(z), *scores)))
+if (__name__=='__main__'):
+	eval_args = sys.argv[1].split(' ')
+	scores=[]
+	len_games =[]
+	for i in range(1):
+	    game = GameGrid(eval_args)
+	    game.max_at_instance = game.max_at_instance + (1024 - len(game.max_at_instance)) * [0]
+	    l = game.max_at_instance
+	    len_games.append(len(l))
+	    tup = (mean(l[:1024]), mean(l[:512]), mean(l[:256]), mean(l[:128]), mean(l[:64]),
+		   mean(l[:32]), mean(l[:16]),mean(l[:8]), mean(l[:4]), mean(l[:2]), mean(l[:1]))
+	    scores.append(tup)
+	print('len', len_games)
+	print(tuple(map(lambda *z: mean(z), *scores)))
