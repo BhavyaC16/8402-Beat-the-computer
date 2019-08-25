@@ -1,3 +1,0 @@
-import sys
-eval_cmd = sys.argv[1]
-print(eval_cmd)
